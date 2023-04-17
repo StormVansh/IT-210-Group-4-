@@ -19,7 +19,7 @@ class DeadLockDetection():
         available = [max_resources[i] - allocated[i] for i in range(r)]
       
 
-        running = [True] * processes
+        running = [True] * p
         count = p
         while count != 0:
             safe = False
