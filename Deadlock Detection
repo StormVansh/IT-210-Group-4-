@@ -1,0 +1,50 @@
+class DeadLockDetection():
+    def main(self):
+        p = int(input("number of processes : "))
+        r = int(input("number of resources : "))
+        max_resources = [int(i) for i in input("maximum resources : ").split()]
+
+        print("\n-- allocated resources for each process --")
+        currently_allocated = [[int(i) for i in input(f"process {j + 1} : ").split()] for j in range(p)]
+
+        print("\n-- maximum resources for each process --")
+        max_need = [[int(i) for i in input(f"process {j + 1} : ").split()] for j in range(p)]
+
+        allocated = [0] * r
+        for i in range(p):
+            for j in range(r):
+                allocated[j] += currently_allocated[i][j]
+        print(f"\ntotal allocated resources : {allocated}")
+
+        available = [max_resources[i] - allocated[i] for i in range(r)]
+      
+
+        running = [True] * processes
+        count = p
+        while count != 0:
+            safe = False
+            for i in range(p):
+                if running[i]:
+                    executing = True
+                    for j in range(r):
+                        if max_need[i][j] - currently_allocated[i][j] > available[j]:
+                            executing = False
+                            break
+                    if executing:
+                        print(f" Total amount of the Resource R{i}:{count}")
+                        running[i] = False
+                        count -= 1
+                        safe = True
+                        for j in range(r):
+                            available[j] += currently_allocated[i][j]
+                        break
+            if not safe:
+                print("deadlock detected")
+                break
+
+            print("No deadlock detected")
+
+
+if __name__ == '__main__':
+    d = DeadLockDetection()
+    d.main()
